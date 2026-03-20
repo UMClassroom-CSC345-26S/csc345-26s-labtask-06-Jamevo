@@ -1,0 +1,22 @@
+% Leo-III-STC---1.7.20 Type Check Results
+% ========================================
+% [INFO]   Parsing problem ...
+% [INFO]   Parsing done (133ms).
+% SZS status Success : Type check succeeded
+%
+% RESULT: Leo-III-STC---1.7.20 says Success - CPU = 1.50 WC = 0.92
+% OUTPUT: Leo-III-STC---1.7.20 says Assurance - CPU = 1.50 WC = 0.92
+%
+% All symbols are correctly typed:
+%   os:          $tType
+%   origin:      $tType
+%   computer:    $tType
+%   linux:       os
+%   windows:     os
+%   osx:         os
+%   unix:        origin
+%   dos:         origin
+%   my_computer: computer
+%   origin_of:   os > origin
+%   runs:        ( computer * os ) > $o
+%   benefits:    ( computer * origin ) > $o

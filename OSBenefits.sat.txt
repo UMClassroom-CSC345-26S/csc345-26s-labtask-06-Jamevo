@@ -1,0 +1,76 @@
+% Vampire-SAT---5.0 Satisfiability Check Results
+% ================================================
+% SZS status Satisfiable
+% Finite Model Found!
+%
+% The axioms are consistent - a model exists.
+%
+% SZS output start FiniteModel
+tff(declare_os,type,os:$tType).
+tff(declare_os1,type,fmb_os_1:os).
+tff(declare_os2,type,fmb_os_2:os).
+tff(declare_os3,type,fmb_os_3:os).
+tff(finite_domain_os,axiom,
+      ! [X:os] : (
+         X = fmb_os_1 | X = fmb_os_2 | X = fmb_os_3
+      ) ).
+
+tff(distinct_domain_os,axiom,
+         fmb_os_1 != fmb_os_2 & fmb_os_1 != fmb_os_3 & fmb_os_2 != fmb_os_3
+).
+
+tff(declare_origin,type,origin:$tType).
+tff(declare_origin1,type,fmb_origin_1:origin).
+tff(declare_origin2,type,fmb_origin_2:origin).
+tff(finite_domain_origin,axiom,
+      ! [X:origin] : (
+         X = fmb_origin_1 | X = fmb_origin_2
+      ) ).
+
+tff(distinct_domain_origin,axiom,
+         fmb_origin_1 != fmb_origin_2
+).
+
+tff(declare_computer,type,computer:$tType).
+tff(declare_computer1,type,fmb_computer_1:computer).
+tff(finite_domain_computer,axiom,
+      ! [X:computer] : (
+         X = fmb_computer_1
+      ) ).
+
+tff(declare_linux,type,linux:os).
+tff(linux_definition,axiom,linux = fmb_os_1).
+tff(declare_windows,type,windows:os).
+tff(windows_definition,axiom,windows = fmb_os_2).
+tff(declare_osx,type,osx:os).
+tff(osx_definition,axiom,osx = fmb_os_3).
+tff(declare_unix,type,unix:origin).
+tff(unix_definition,axiom,unix = fmb_origin_1).
+tff(declare_dos,type,dos:origin).
+tff(dos_definition,axiom,dos = fmb_origin_2).
+tff(declare_my_computer,type,my_computer:computer).
+tff(my_computer_definition,axiom,my_computer = fmb_computer_1).
+tff(declare_origin_of,type,origin_of: (os) > origin).
+tff(function_origin_of,axiom,
+           origin_of(fmb_os_1) = fmb_origin_1
+         & origin_of(fmb_os_2) = fmb_origin_2
+         & origin_of(fmb_os_3) = fmb_origin_1
+).
+
+tff(declare_runs,type,runs: (computer * os) > $o).
+tff(predicate_runs,axiom,
+           runs(fmb_computer_1,fmb_os_1)
+         & runs(fmb_computer_1,fmb_os_2)
+         & runs(fmb_computer_1,fmb_os_3)
+).
+
+tff(declare_benefits,type,benefits: (computer * origin) > $o).
+tff(predicate_benefits,axiom,
+           benefits(fmb_computer_1,fmb_origin_1)
+         & benefits(fmb_computer_1,fmb_origin_2)
+).
+% SZS output end FiniteModel
+%
+% Vampire 5.0.1
+% Time elapsed: 0.002 s
+% RESULT: Vampire-SAT---5.0 says Satisfiable - CPU = 0.00 WC = 0.10

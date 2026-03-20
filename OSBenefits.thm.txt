@@ -1,0 +1,120 @@
+% E---3.3.0 Theorem Proof
+% =======================
+% SZS status Theorem
+% SZS output start CNFRefutation
+
+tff(decl_sort1, type, os: $tType).
+tff(decl_sort2, type, origin: $tType).
+tff(decl_sort3, type, computer: $tType).
+tff(decl_25, type, osx: os).
+tff(decl_26, type, unix: origin).
+tff(decl_27, type, dos: origin).
+tff(decl_28, type, my_computer: computer).
+tff(decl_29, type, origin_of: os > origin).
+tff(decl_30, type, runs: (computer * os) > $o).
+tff(decl_31, type, benefits: (computer * origin) > $o).
+
+tff(my_computer_benefits_unix, conjecture,
+    benefits(my_computer,unix),
+    file('OSBenefits.txt', my_computer_benefits_unix)).
+
+tff(all_origins, axiom,
+    ![X2:origin]:((X2=unix|X2=dos)),
+    file('OSBenefits.txt', all_origins)).
+
+tff(benefits_from_origin, axiom,
+    ![X3:computer, X1:os]:((runs(X3,X1)=>benefits(X3,origin_of(X1)))),
+    file('OSBenefits.txt', benefits_from_origin)).
+
+tff(origins_different, axiom,
+    unix!=dos,
+    file('OSBenefits.txt', origins_different)).
+
+tff(my_computer_runs_osx, axiom,
+    runs(my_computer,osx),
+    file('OSBenefits.txt', my_computer_runs_osx)).
+
+tff(origin_osx, axiom,
+    origin_of(osx)=unix,
+    file('OSBenefits.txt', origin_osx)).
+
+tff(c_0_6, negated_conjecture,
+    ~benefits(my_computer,unix),
+    inference(fof_simplification,[status(thm)],
+      [inference(assume_negation,[status(cth)],
+        [my_computer_benefits_unix])])).
+
+tff(c_0_7, plain,
+    ![X9:origin]:((X9=unix|X9=dos)),
+    inference(variable_rename,[status(thm)],[all_origins])).
+
+tff(c_0_8, negated_conjecture,
+    ~benefits(my_computer,unix),
+    inference(fof_nnf,[status(thm)],[c_0_6])).
+
+tcf(c_0_9, plain,
+    ![X2:origin]:((X2=unix|X2=dos)),
+    inference(split_conjunct,[status(thm)],[c_0_7])).
+
+tcf(c_0_10, negated_conjecture,
+    ~benefits(my_computer,unix),
+    inference(split_conjunct,[status(thm)],[c_0_8])).
+
+tcf(c_0_11, plain,
+    ![X9:origin, X2:origin]:((X2=unix|X9=unix|X9=X2)),
+    inference(spm,[status(thm)],[c_0_9, c_0_9])).
+
+tff(c_0_12, plain,
+    ![X4:computer, X5:os]:((~runs(X4,X5)|benefits(X4,origin_of(X5)))),
+    inference(fof_nnf,[status(thm)],
+      [inference(variable_rename,[status(thm)],
+        [inference(fof_nnf,[status(thm)],[benefits_from_origin])])])).
+
+tff(c_0_13, plain,
+    unix!=dos,
+    inference(fof_simplification,[status(thm)],[origins_different])).
+
+tcf(c_0_14, negated_conjecture,
+    ![X2:origin, X9:origin]:((X2=unix|X9=X2|~benefits(my_computer,X9))),
+    inference(spm,[status(thm)],[c_0_10, c_0_11])).
+
+tcf(c_0_15, plain,
+    ![X3:computer, X1:os]:((benefits(X3,origin_of(X1))|~runs(X3,X1))),
+    inference(split_conjunct,[status(thm)],[c_0_12])).
+
+tff(c_0_16, plain,
+    unix!=dos,
+    inference(fof_nnf,[status(thm)],[c_0_13])).
+
+tcf(c_0_17, negated_conjecture,
+    ![X2:origin, X1:os]:((origin_of(X1)=X2|X2=unix|~runs(my_computer,X1))),
+    inference(spm,[status(thm)],[c_0_14, c_0_15])).
+
+tcf(c_0_18, plain,
+    runs(my_computer,osx),
+    inference(split_conjunct,[status(thm)],[my_computer_runs_osx])).
+
+tcf(c_0_19, plain,
+    origin_of(osx)=unix,
+    inference(split_conjunct,[status(thm)],[origin_osx])).
+
+tcf(c_0_20, plain,
+    unix!=dos,
+    inference(split_conjunct,[status(thm)],[c_0_16])).
+
+tcf(c_0_21, negated_conjecture,
+    ![X2:origin]:(unix=X2),
+    inference(cn,[status(thm)],
+      [inference(rw,[status(thm)],
+        [inference(spm,[status(thm)],[c_0_17, c_0_18]), c_0_19])])).
+
+cnf(c_0_22, plain,
+    ($false),
+    inference(cn,[status(thm)],
+      [inference(rw,[status(thm)],[c_0_20, c_0_21])]),
+    ['proof']).
+
+% SZS output end CNFRefutation
+%
+% E---3.3.0 says Theorem - CPU = 0.01 WC = 0.05
+% Proof found in 0.006 seconds
